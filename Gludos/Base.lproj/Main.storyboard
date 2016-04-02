@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Gludos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +17,112 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="12 units" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rXg-G3-qeC">
+                                <rect key="frame" x="252" y="56" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="T0N-kH-Tbe"/>
+                                    <constraint firstAttribute="width" constant="97" id="mIx-V0-AX4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="19"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="80 carbs" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oea-IG-3Ek">
+                                <rect key="frame" x="252" y="107" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="sSP-71-Rxq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="19"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="120" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CJl-KV-0TS">
+                                <rect key="frame" x="252" y="168" width="97" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="19"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujg-Rj-1sR">
+                                <rect key="frame" x="270" y="267" width="60" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="dqJ-Uu-bMu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="55"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveTheGlucose" destination="BYZ-38-t0r" eventType="touchUpInside" id="P3R-Vw-VHW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-Zc-hiD">
+                                <rect key="frame" x="511" y="539" width="69" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="8c0-WP-WPD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="View">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="1rB-1q-E1a" kind="presentation" id="E73-ej-GgH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.50581850086347546" green="1" blue="0.50911672584886591" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="MDT-Zc-hiD" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4Jf-fA-1u4"/>
+                            <constraint firstItem="CJl-KV-0TS" firstAttribute="centerX" secondItem="Ujg-Rj-1sR" secondAttribute="centerX" id="656-oP-WOQ"/>
+                            <constraint firstItem="CJl-KV-0TS" firstAttribute="top" secondItem="Oea-IG-3Ek" secondAttribute="bottom" constant="31" id="7J1-lx-34x"/>
+                            <constraint firstItem="rXg-G3-qeC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BPI-Ov-rD5"/>
+                            <constraint firstItem="rXg-G3-qeC" firstAttribute="trailing" secondItem="Oea-IG-3Ek" secondAttribute="trailing" id="K5T-6o-sXV"/>
+                            <constraint firstAttribute="bottom" secondItem="MDT-Zc-hiD" secondAttribute="bottom" constant="20" symbolic="YES" id="K5e-fA-RPP"/>
+                            <constraint firstItem="Oea-IG-3Ek" firstAttribute="top" secondItem="rXg-G3-qeC" secondAttribute="bottom" constant="21" id="NUi-Vd-I4M"/>
+                            <constraint firstItem="rXg-G3-qeC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Tfl-Vz-2lN"/>
+                            <constraint firstItem="Ujg-Rj-1sR" firstAttribute="top" secondItem="CJl-KV-0TS" secondAttribute="bottom" constant="69" id="clv-mO-Iho"/>
+                            <constraint firstItem="MDT-Zc-hiD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="519" id="ddd-qs-vn1"/>
+                            <constraint firstItem="rXg-G3-qeC" firstAttribute="leading" secondItem="Oea-IG-3Ek" secondAttribute="leading" id="eVQ-i9-dxp"/>
+                            <constraint firstItem="Ujg-Rj-1sR" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="lHR-R4-4Kr"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Ujg-Rj-1sR" secondAttribute="bottom" constant="268" id="m0f-Cg-5JN"/>
+                            <constraint firstItem="Oea-IG-3Ek" firstAttribute="trailing" secondItem="CJl-KV-0TS" secondAttribute="trailing" id="rXk-11-o3Z"/>
+                            <constraint firstItem="Oea-IG-3Ek" firstAttribute="leading" secondItem="CJl-KV-0TS" secondAttribute="leading" id="xIq-z3-y0y"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="carbAmountField" destination="Oea-IG-3Ek" id="jpx-d5-F4O"/>
+                        <outlet property="glucoseLevelField" destination="CJl-KV-0TS" id="4Id-2H-g9A"/>
+                        <outlet property="insulinAmountField" destination="rXg-G3-qeC" id="kg9-kP-hx4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="429"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="ViZ-bg-ggF">
+            <objects>
+                <tableViewController id="1rB-1q-E1a" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="BDL-Px-kSw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="tfK-Aa-yY6">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tfK-Aa-yY6" id="36X-G0-emJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="1rB-1q-E1a" id="3dA-qe-hFY"/>
+                            <outlet property="delegate" destination="1rB-1q-E1a" id="fvP-KG-FVW"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R2f-Y7-gdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="999" y="429"/>
         </scene>
     </scenes>
 </document>
