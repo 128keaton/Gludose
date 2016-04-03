@@ -10,19 +10,26 @@ import UIKit
 import HealthKit
 let healthKitStore: HKHealthStore = HKHealthStore()
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
-	var bloodGlucoseLevel = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)
-    var carbohydratesLevel = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)
-	var insulinUnits: String?
+    private var objects = [HKQuantityType!]()
+    private var preferredUnits = [NSObject : AnyObject]()
+    private var healthStore = HKHealthStore()
+    
+    var allTheStuff = NSMutableArray()
+    
 	@IBOutlet var insulinAmountField: UITextField?
 	@IBOutlet var carbAmountField: UITextField?
 	@IBOutlet var glucoseLevelField: UITextField?
    
-     private var preferredUnits = [NSObject : AnyObject]()
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        if(NSUserDefaults.standardUserDefaults().objectForKey("stuff") == nil){
+            allTheStuff = NSMutableArray()
+        }else{
+            allTheStuff = NSUserDefaults.standardUserDefaults().objectForKey("stuff")?.mutableCopy() as! NSMutableArray
+        }
         
 
 		// Do any additional setup after loading the view, typically from a nib.
@@ -30,7 +37,9 @@ class ViewController: UIViewController {
 
 	override func viewDidAppear(animated: Bool) {
 		self.authorizeHealthKit(nil)
-         let healthKitTypes = Set<HKQuantityType>(arrayLiteral: bloodGlucoseLevel!)
+        let carbs = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)
+        let bloodGlucose = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)
+          let healthKitTypes = Set<HKQuantityType>(arrayLiteral: carbs!, bloodGlucose!)
         healthKitStore.preferredUnitsForQuantityTypes(healthKitTypes as Set, completion: { (preferredUnits, error) -> Void in
             if (error == nil) {
                 NSLog("...preferred units %@", preferredUnits)
@@ -40,6 +49,7 @@ class ViewController: UIViewController {
         })
 	}
 
+
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
@@ -48,12 +58,18 @@ class ViewController: UIViewController {
 
 		// 1. Create a BMI Sample
 
-		let glucoseQuantity = HKQuantity(unit: unit!, doubleValue: glucose)
+		let glucoseQuantity = HKQuantity(unit: preferredUnits[HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)!] as! HKUnit, doubleValue: glucose)
     
 		let glucoseSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)!, quantity: glucoseQuantity, startDate: time, endDate: time)
 
+        let carbQuantity = HKQuantity(unit: preferredUnits[HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)!] as! HKUnit, doubleValue: carbs)
+        
+        let carbSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)!, quantity: carbQuantity, startDate: time, endDate: time)
+        
+        
+    
 		// 2. Save the sample in the store
-		healthKitStore.saveObject(glucoseSample, withCompletion: { (success, error) -> Void in
+		healthKitStore.saveObjects([glucoseSample, carbSample], withCompletion: { (success, error) -> Void in
 			if (error != nil) {
 				print("Error saving Glucose sample: \(error!.localizedDescription)")
 			} else {
@@ -63,37 +79,40 @@ class ViewController: UIViewController {
 	}
 	@IBAction func saveTheGlucose() {
 		saveData(NSDate(), glucose: Double((glucoseLevelField?.text)!)!, carbs: Double((carbAmountField?.text)!)!, insulin: Double((insulinAmountField?.text)!)!)
+        
+        let biscuit: NSMutableDictionary = ["glucose" : (glucoseLevelField?.text)!, "carbs" : (carbAmountField?.text)!, "insulin" : (insulinAmountField?.text)!, "time" : NSDate()]
+        allTheStuff.addObject(biscuit)
+        NSUserDefaults.standardUserDefaults().setObject(allTheStuff, forKey: "stuff")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
 		print("saving glucose and the gang")
 	}
+    func clearText(){
+        
+    }
 
 	func authorizeHealthKit(completion: ((success: Bool, error: NSError!) -> Void)!)
 	{
-		// 1. Set the types you want to read from HK Store
-		let healthRead = NSSet(object:bloodGlucoseLevel, carbo!)
-
-		let healthWrite = NSSet(object: HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)!)
-
-		// 2. Set the types you want to write to HK Store
-
-		// 3. If the store is not available (for instance, iPad) return an error and don't go on.
-		if !HKHealthStore.isHealthDataAvailable()
-		{
-			let error = NSError(domain: "com.bittank.Gludos.healthkit", code: 2, userInfo: [NSLocalizedDescriptionKey: "HealthKit is not available in this Device"])
-			if (completion != nil)
-			{
-				completion(success: false, error: error)
-			}
-			return;
-		}
-
-		// 4.  Request HealthKit authorization
-		healthKitStore.requestAuthorizationToShareTypes(healthWrite as? Set<HKSampleType>, readTypes: healthRead as? Set<HKObjectType>) { (success, error) -> Void in
-
-			if (completion != nil)
-			{
-				completion(success: success, error: error)
-			}
-		}
-	}
+        let carbs = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)
+        let bloodGlucose = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)
+        
+        let healthKitTypes = Set<HKQuantityType>(arrayLiteral: carbs!, bloodGlucose!)
+        
+        self.healthStore.requestAuthorizationToShareTypes(healthKitTypes as Set, readTypes:healthKitTypes as Set) { (success, error) -> Void in
+            if (success) {
+                NSLog("HealthKit authorization success...")
+                
+                self.healthStore.preferredUnitsForQuantityTypes(healthKitTypes as Set, completion: { (preferredUnits, error) -> Void in
+                    if (error == nil) {
+                        NSLog("...preferred units %@", preferredUnits)
+                        self.preferredUnits = preferredUnits
+                    }
+                })
+            }
+        }
+        
+        self.objects = [carbs, bloodGlucose]
+        
 }
 
+}

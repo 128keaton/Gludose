@@ -7,3 +7,118 @@
 //
 
 import Foundation
+import UIKit
+
+class InsulinCell: UITableViewCell {
+	@IBOutlet weak var insulinLabel: UILabel?
+	@IBOutlet weak var carbLabel: UILabel?
+	@IBOutlet weak var bloodSugarLabel: UILabel?
+	@IBOutlet weak var dateLabel: UILabel?
+	@IBOutlet weak var statusImage: UIImageView?
+
+	enum TimeOfDay {
+		case Morning
+		case Noon
+        case Afternoon
+		case Night
+        case Inconclusive
+	}
+
+	func loadItem(glucose: String, carbs: String, insulin: String, time: TimeOfDay, date: NSDate) {
+
+        
+        let timeOfDay = self.determineFriendlyName(date)
+		bloodSugarLabel?.text = glucose
+		carbLabel?.text = "\(carbs) grams"
+		insulinLabel?.text = "\(insulin) units"
+		statusImage?.image = UIImage.init(named: "\(timeOfDay).png")
+
+		let formatter = NSDateFormatter()
+		formatter.dateStyle = NSDateFormatterStyle.LongStyle
+		formatter.timeStyle = .MediumStyle
+
+		let dateString = formatter.stringFromDate(date)
+
+		dateLabel?.text = dateString
+        print("Time of Day: \(timeOfDay)")
+		switch timeOfDay {
+		case .Morning:
+			self.backgroundColor = UIColor(hue: 60 / 360, saturation: 100 / 100, brightness: 99 / 100, alpha: 1.0)
+			break
+		case .Noon:
+			self.backgroundColor = UIColor(hue: 130 / 360, saturation: 59 / 100, brightness: 100 / 100, alpha: 1.0)
+			break
+		case .Night:
+			self.backgroundColor = UIColor(hue: 218 / 360, saturation: 78 / 100, brightness: 90 / 100, alpha: 1.0)
+			break
+        case .Afternoon:
+            self.backgroundColor = UIColor(hue: 199/360, saturation: 86/100, brightness: 99/100, alpha: 1.0)
+            break
+        case .Inconclusive:
+            print("shoot")
+            break
+		}
+	}
+	func determineFriendlyName(date: NSDate) -> TimeOfDay {
+		let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: date)
+
+	
+        
+        switch hour {
+        case 6 ..< 12:
+            return .Morning
+        case 12:
+            return .Noon
+        case 13 ..< 17:
+            return .Afternoon
+        case 17 ..< 22:
+            return .Night
+        default:
+            return .Inconclusive
+
+            
+            
+        }
+        
+	}
+
+	override func awakeFromNib() {
+		super.awakeFromNib()
+	}
+
+	override func setSelected(selected: Bool, animated: Bool) {
+		super.setSelected(selected, animated: animated)
+	}
+}
+
+class ListViewController: UITableViewController {
+
+	var allTheStuff = NSMutableArray()
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		if (NSUserDefaults.standardUserDefaults().objectForKey("stuff") == nil) {
+			allTheStuff = NSMutableArray()
+		} else {
+			allTheStuff = NSUserDefaults.standardUserDefaults().objectForKey("stuff")?.mutableCopy() as! NSMutableArray
+		}
+	}
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return allTheStuff.count
+	}
+	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+		return 1
+	}
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		let cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! InsulinCell
+		let dictionary = allTheStuff.objectAtIndex(indexPath.row) as! NSMutableDictionary
+
+		cell.loadItem(dictionary["glucose"] as! String, carbs: dictionary["carbs"] as! String, insulin: dictionary["insulin"] as! String, time: .Morning, date: dictionary["time"] as! NSDate)
+
+		return cell
+	}
+    
+    @IBAction func dismissYoSelf(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+}
