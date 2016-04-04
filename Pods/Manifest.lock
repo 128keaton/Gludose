@@ -1,0 +1,29 @@
+PODS:
+  - DLRadioButton (1.4.7)
+  - Spring (1.0.3)
+  - SwiftOverlays (2.0.0)
+  - SwipeView (1.3.2)
+
+DEPENDENCIES:
+  - DLRadioButton (~> 1.4)
+  - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
+  - SwiftOverlays (~> 2.0.0)
+  - SwipeView
+
+EXTERNAL SOURCES:
+  Spring:
+    :branch: swift2
+    :git: https://github.com/MengTo/Spring.git
+
+CHECKOUT OPTIONS:
+  Spring:
+    :commit: 18d5c7b74489de8044e34767f856d1e574f0820e
+    :git: https://github.com/MengTo/Spring.git
+
+SPEC CHECKSUMS:
+  DLRadioButton: c75e398a8ad7ddef4e9e91dc423073f01a1f4cc2
+  Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
+  SwiftOverlays: a2a4743b02ba9e89dd2b1f2ae7ed7be164a849dc
+  SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
+
+COCOAPODS: 0.39.0

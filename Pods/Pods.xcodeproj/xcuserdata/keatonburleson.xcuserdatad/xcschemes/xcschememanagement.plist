@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>DLRadioButton.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Gludos.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Spring.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftOverlays.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwipeView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>07EE2F55CBF23BA60C32BF7E537838E0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>48FD99DDA394A4B86DD6CAB40A2F2B48</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9992E952E3589308653D91D766BC9858</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B8542C3B6E7AB470D321BE638A8325DA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3990E3EAC160D4E4F89177D966FC1E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

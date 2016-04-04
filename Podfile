@@ -4,6 +4,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Gludos' do
+pod 'SwipeView'
 pod 'DLRadioButton', '~> 1.4'
 pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
 pod 'SwiftOverlays', '~> 2.0.0'
