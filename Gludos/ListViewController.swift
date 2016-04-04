@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import QuartzCore
 
 class InsulinCell: UITableViewCell {
 	@IBOutlet weak var insulinLabel: UILabel?
@@ -21,7 +22,6 @@ class InsulinCell: UITableViewCell {
 		case Noon
         case Afternoon
 		case Night
-        case Inconclusive
 	}
 
 	func loadItem(glucose: String, carbs: String, insulin: String, time: TimeOfDay, date: NSDate) {
@@ -32,6 +32,13 @@ class InsulinCell: UITableViewCell {
 		carbLabel?.text = "\(carbs) grams"
 		insulinLabel?.text = "\(insulin) units"
 		statusImage?.image = UIImage.init(named: "\(timeOfDay).png")
+    
+  
+       
+        dateLabel?.layer.cornerRadius = 10
+        dateLabel?.layer.borderWidth = 1
+        dateLabel?.layer.borderColor = UIColor.clearColor().CGColor
+        dateLabel?.layer.backgroundColor = UIColor(hue: 275/360, saturation: 82/100, brightness: 92/100, alpha: 1.0).CGColor
 
 		let formatter = NSDateFormatter()
 		formatter.dateStyle = NSDateFormatterStyle.LongStyle
@@ -54,9 +61,6 @@ class InsulinCell: UITableViewCell {
         case .Afternoon:
             self.backgroundColor = UIColor(hue: 199/360, saturation: 86/100, brightness: 99/100, alpha: 1.0)
             break
-        case .Inconclusive:
-            print("shoot")
-            break
 		}
 	}
 	func determineFriendlyName(date: NSDate) -> TimeOfDay {
@@ -74,7 +78,7 @@ class InsulinCell: UITableViewCell {
         case 17 ..< 22:
             return .Night
         default:
-            return .Inconclusive
+            return .Night
 
             
             
@@ -99,8 +103,14 @@ class ListViewController: UITableViewController {
 		if (NSUserDefaults.standardUserDefaults().objectForKey("stuff") == nil) {
 			allTheStuff = NSMutableArray()
 		} else {
-			allTheStuff = NSUserDefaults.standardUserDefaults().objectForKey("stuff")?.mutableCopy() as! NSMutableArray
-		}
+            var temporary: NSArray = NSUserDefaults.standardUserDefaults().objectForKey("stuff") as! NSArray
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "time", ascending: false)
+            temporary = temporary.sortedArrayUsingDescriptors([descriptor])
+            allTheStuff = temporary.mutableCopy() as! NSMutableArray
+            
+            
+        }
+        
 	}
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return allTheStuff.count
